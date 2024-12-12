@@ -7,20 +7,29 @@ using System.Threading.Tasks;
 namespace ToDo
 {
     
-    internal class ToDo
+    public class ToDo
     {
-        static long idCoutner = 0;
-        
+        private static long idCoutner = 0;
+        public static Queue<int> deletedIds = new Queue<int>();
+
         public long _id;
-        public string description {  get; set; }
         public string title { get; set; }
+        public string description {  get; set; }
         public TaskPriority priority { get; set; }
         public TaskStatus status { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        ToDo(string description, string title, TaskPriority priority = TaskPriority.Low, TaskStatus status = TaskStatus.InProgress)
+        public ToDo(string description, string title, TaskPriority priority = TaskPriority.Low, TaskStatus status = TaskStatus.InProgress)
         {
-            _id = ++idCoutner;
+            if(deletedIds.Count != 0)
+            {
+                _id = deletedIds.Dequeue();
+            }
+            else
+            {
+                _id = ++idCoutner;
+            }
+
             this.description = description;
             this.title = title;
             this.priority = priority;
@@ -28,10 +37,14 @@ namespace ToDo
             CreatedAt = DateTime.Now;
         }
 
-        public ToDo(string description, string title)
+        public ToDo(long id, string description, string title, TaskPriority priority = TaskPriority.Low, TaskStatus status = TaskStatus.InProgress, DateTime dt)
         {
+            _id = id;
             this.description = description;
             this.title = title;
+            this.priority = priority;
+            this.status = status;
+            CreatedAt = dt;
         }
 
         public enum TaskStatus
@@ -41,18 +54,12 @@ namespace ToDo
             Completed,
             Paused
         }
-
-
+        
         public enum TaskPriority
         {
             Low,
             Medium,
             High
-        }
-
-        internal void print()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace ToDo
 {
-    internal class ConsoleManager
+    public class ConsoleManager
     {
         private ToDoPersistanceLayer _persistanceLayer;
-
-        ConsoleManager() 
+        private ToDoSpecificConsoleManger _toDoSpecificConsoleManger;
+        public ConsoleManager() 
         {
             this._persistanceLayer = new ToDoPersistanceLayer();
+            this._toDoSpecificConsoleManger = new ToDoSpecificConsoleManger();
         }
         public void run()
         {
@@ -29,21 +30,24 @@ namespace ToDo
                     case (int)Commands.DisplayMenuList:
                         displayMenuList();
                         break;
-                    case (int)Commands.CreateToDo:
-                        createToDo();
-                        break;
-                    case (int)Commands.UpdateToDo:
-                        updateToDo();
-                        break;
+                    // case (int)Commands.CreateToDo:
+                    //    createToDo();
+                    //    break;
+                    // case (int)Commands.UpdateToDo:
+                    //    updateToDo();
+                    //    break;
                     case (int)Commands.DisplayToDoList:
                         displayToDoList();
                         break;
-                    case (int)Commands.DisplayToDo:
-                        displayToDo();
+                    case (int)Commands.ToDoSplecificCRUD:
+                        _toDoSpecificConsoleManger.run();
                         break;
-                    case (int)Commands.DeleteToDo:
-                        deleteToDo();
-                        break;
+                    // case (int)Commands.DisplayToDo:
+                    //    displayToDo();
+                    //   break;
+                    // case (int)Commands.DeleteToDo:
+                    //    deleteToDo();
+                    //    break;
                     case (int)Commands.TerminateSession:
                         terminateSession();
                         break;
@@ -109,38 +113,47 @@ namespace ToDo
             }
         }
 
-        private void displayToDoList()
+        private void displayToDoList() 
         {
+            Dictionary <long, ToDo> todos = _persistanceLayer.getTodos();
+            
 
+
+            if(todos.Count > 0)
+            {
+                Console.WriteLine("All todo are: -------------------------");
+                foreach(ToDo toDo in todos.Values)
+                {
+                    _toDoSpecificConsoleManger.printToDo(toDo);
+                }
+                Console.WriteLine("---------------all todos---------------");
+            }
+            else
+            {
+                Console.WriteLine("Yay!!! No ToDos for now.");
+            }
         }
 
-        private void updateToDo()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void createToDo()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         private void displayMenuList()
         {
             Console.WriteLine("---------------------------------------");
             Console.WriteLine("Menu list: ");
-            Console.WriteLine($"{Commands.DisplayMenuList}: To display menu list.");
-            Console.WriteLine($"{Commands.CreateToDo}: To create a new ToDo.");
-            Console.WriteLine($"{Commands.DisplayToDoList}: To display all ToDos.");
-            Console.WriteLine($"{Commands.DisplayToDo}: To display a ToDo.");
-            Console.WriteLine($"{Commands.UpdateToDo}: To update a ToDo");
-            Console.WriteLine($"{Commands.DeleteToDo}: To delete a ToDo");
-            Console.WriteLine($"{Commands.TerminateSession}: To terminate current session.");
+            Console.WriteLine($"{(int)Commands.DisplayMenuList}: To display menu list.");
+            // Console.WriteLine($"{Commands.CreateToDo}: To create a new ToDo.");
+            Console.WriteLine($"{(int)Commands.DisplayToDoList}: To display all ToDos.");
+            Console.WriteLine($"{(int)Commands.ToDoSplecificCRUD}: To perform operations on specific todo.");
+            // Console.WriteLine($"{Commands.DisplayToDo}: To display a ToDo.");
+            // Console.WriteLine($"{Commands.UpdateToDo}: To update a ToDo");
+            // Console.WriteLine($"{Commands.DeleteToDo}: To delete a ToDo");
+            Console.WriteLine($"{(int)Commands.TerminateSession}: To terminate current session.");
             Console.WriteLine("---------------------------------------");
         }
 
         public void greetUser()
         {
-            Console.WriteLine("Hello Wishtrian, welcome to ToDo app.\n");
+            Console.WriteLine("Hello Wishtrian, welcoooome to the ultimate ToDo app.\n");
         }
 
         
@@ -148,11 +161,12 @@ namespace ToDo
         private enum Commands
         {
             DisplayMenuList,
-            CreateToDo,
+            // CreateToDo,
             DisplayToDoList,
-            DisplayToDo,
-            UpdateToDo,
-            DeleteToDo,
+            ToDoSplecificCRUD,
+            // DisplayToDo,
+            // UpdateToDo,
+            // DeleteToDo,
             TerminateSession
         }
 

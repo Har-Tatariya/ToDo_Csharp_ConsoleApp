@@ -11,7 +11,8 @@ namespace ToDo
         static void Main(string[] args)
         {
             Console.WriteLine("__  __  __");
-
+            ConsoleManager consoleManager = new ConsoleManager();
+            consoleManager.run();
         }
     }
 }
