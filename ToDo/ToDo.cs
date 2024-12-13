@@ -19,7 +19,7 @@ namespace ToDo
         public TaskStatus status { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public ToDo(string description, string title, TaskPriority priority = TaskPriority.Low, TaskStatus status = TaskStatus.InProgress)
+        public ToDo(string description, string title, TaskPriority priority = ToDo.TaskPriority.Low, ToDo.TaskStatus status = TaskStatus.InProgress)
         {
             if(deletedIds.Count != 0)
             {
@@ -37,7 +37,7 @@ namespace ToDo
             CreatedAt = DateTime.Now;
         }
 
-        public ToDo(long id, string description, string title, TaskPriority priority = TaskPriority.Low, TaskStatus status = TaskStatus.InProgress, DateTime dt)
+        public ToDo(long id, string description, string title, DateTime dt, TaskPriority priority = TaskPriority.Low, TaskStatus status = TaskStatus.InProgress)
         {
             _id = id;
             this.description = description;
@@ -49,10 +49,9 @@ namespace ToDo
 
         public enum TaskStatus
         {
-            Pending,
             InProgress,
+            Pending,
             Completed,
-            Paused
         }
         
         public enum TaskPriority

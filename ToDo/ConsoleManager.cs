@@ -66,6 +66,7 @@ namespace ToDo
         private void terminateSession()
         {
             Console.WriteLine("Thank you for your time. Have a nice day.");
+            // _persistanceLayer.persist();
         }
 
         private void deleteToDo()
@@ -139,7 +140,7 @@ namespace ToDo
         private void displayMenuList()
         {
             Console.WriteLine("---------------------------------------");
-            Console.WriteLine("Menu list: ");
+            Console.WriteLine("* Menu list: ");
             Console.WriteLine($"{(int)Commands.DisplayMenuList}: To display menu list.");
             // Console.WriteLine($"{Commands.CreateToDo}: To create a new ToDo.");
             Console.WriteLine($"{(int)Commands.DisplayToDoList}: To display all ToDos.");

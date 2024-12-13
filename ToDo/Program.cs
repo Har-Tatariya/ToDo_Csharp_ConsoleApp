@@ -13,6 +13,7 @@ namespace ToDo
             Console.WriteLine("__  __  __");
             ConsoleManager consoleManager = new ConsoleManager();
             consoleManager.run();
+            Console.ReadKey();
         }
     }
 }
